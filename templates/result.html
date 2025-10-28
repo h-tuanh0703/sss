@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Modern Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+                <div class="card-header border-0 p-3" style="background: #e3f2fd; border-radius: 12px 12px 0 0; border-bottom: 1px solid #bbdefb;">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="mb-1 fw-bold" style="color: #1565c0;"><i class="fas fa-chart-line me-2"></i>Kết quả phân tích</h4>
+                            <p class="mb-0" style="color: #42a5f5; font-size: 0.8rem;">Tổng quan dữ liệu đã xử lý</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="d-flex gap-1 justify-content-end">
+                                <a href="/stats" class="btn btn-sm px-3 py-1 rounded-pill shadow-sm" style="background: #28a745; color: white; font-size: 0.75rem;">
+                                    <i class="fas fa-chart-bar me-1"></i>Thống kê
+                                </a>
+                                <a href="/download" class="btn btn-sm px-3 py-1 rounded-pill shadow-sm" style="background: #1565c0; color: white; font-size: 0.75rem;">
+                                    <i class="fas fa-download me-1"></i>Tải Excel
+                                </a>
+                                <a href="/" class="btn btn-sm px-3 py-1 rounded-pill" style="border: 1px solid #bbdefb; color: #42a5f5; font-size: 0.75rem;">
+                                    <i class="fas fa-arrow-left me-1"></i>File khác
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card border-0 h-100" style="background: #d4edda; border-radius: 10px; border: 1px solid #c3e6cb;">
+                                <div class="card-body text-center p-3">
+                                    <div class="mb-2">
+                                        <i class="fas fa-check-circle" style="font-size: 1.5rem; color: #28a745;"></i>
+                                    </div>
+                                    <h3 class="fw-bold mb-1" style="font-size: 1.8rem; color: #155724;">{{ result.matched_count }}</h3>
+                                    <p class="mb-0 fw-medium" style="color: #155724; font-size: 0.8rem;">Matched Records</p>
+                                    <small style="color: #28a745; font-size: 0.7rem;">Đã khớp với checklist</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card border-0 h-100" style="background: #fff3cd; border-radius: 10px; border: 1px solid #ffeaa7;">
+                                <div class="card-body text-center p-3">
+                                    <div class="mb-2">
+                                        <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem; color: #ffc107;"></i>
+                                    </div>
+                                    <h3 class="fw-bold mb-1" style="font-size: 1.8rem; color: #856404;">{{ result.unmatched_original }}</h3>
+                                    <p class="mb-0 fw-medium" style="color: #856404; font-size: 0.8rem;">Unmatched Original</p>
+                                    <small style="color: #ffc107; font-size: 0.7rem;">Chưa khớp ban đầu</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="card border-0 h-100" style="background: #f8d7da; border-radius: 10px; border: 1px solid #f5c6cb;">
+                                <div class="card-body text-center p-3">
+                                    <div class="mb-2">
+                                        <i class="fas fa-filter" style="font-size: 1.5rem; color: #dc3545;"></i>
+                                    </div>
+                                    <h3 class="fw-bold mb-1" style="font-size: 1.8rem; color: #721c24;">{{ result.unmatched_final }}</h3>
+                                    <p class="mb-0 fw-medium" style="color: #721c24; font-size: 0.8rem;">Unmatched Final</p>
+                                    <small style="color: #dc3545; font-size: 0.7rem;">Sau khi lọc trùng</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modern Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm" style="border-radius: 10px; border: 1px solid #bbdefb;">
+                <div class="card-body p-3">
+                    <div class="row align-items-center g-2">
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold mb-1" style="color: #1565c0; font-size: 0.75rem;"><i class="fas fa-tags me-1"></i>Brand</label>
+                            <select id="brandFilter" class="form-select border-0 shadow-sm" style="border-radius: 8px; background: #f3f8ff; font-size: 0.8rem;">
+                                <option value="">Tất cả Brand</option>
+                                {% for brand in result.brands %}
+                                <option value="{{ brand }}">{{ brand }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold mb-1" style="color: #1565c0; font-size: 0.75rem;"><i class="fas fa-chart-line me-1"></i>Sales Growth</label>
+                            <select id="salesGrowthFilter" class="form-select border-0 shadow-sm" style="border-radius: 8px; background: #f3f8ff; font-size: 0.8rem;">
+                                <option value="">Tất cả Sales Growth</option>
+                                <option value="positive">Sales Growth > 0</option>
+                                <option value="negative">Sales Growth < 0</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold mb-1" style="color: #1565c0; font-size: 0.75rem;"><i class="fas fa-search me-1"></i>Tìm kiếm</label>
+                            <input type="text" id="searchInput" class="form-control border-0 shadow-sm" placeholder="Tìm trong bảng..." style="border-radius: 8px; background: #f3f8ff; font-size: 0.8rem;">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-bold mb-1" style="color: #1565c0; font-size: 0.75rem;">&nbsp;</label>
+                            <button id="clearFilters" class="btn w-100 rounded-pill" style="background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; font-size: 0.75rem;">
+                                <i class="fas fa-times me-1"></i>Xóa bộ lọc
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Beautiful Contained Tables -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm" style="border-radius: 15px; overflow: hidden;">
+                <!-- Tab Navigation -->
+                <div class="card-header border-0 p-0" style="background: #f7fafc;">
+                    <ul class="nav nav-pills justify-content-center p-2" id="resultTabs" role="tablist">
+                        <li class="nav-item me-1" role="presentation">
+                            <button class="nav-link active px-3 py-2 rounded-pill fw-bold" id="matched-tab" data-bs-toggle="tab" data-bs-target="#matched" type="button" role="tab" style="background: #d4edda; color: #155724; border: 1px solid #c3e6cb; font-size: 0.8rem;">
+                                Matched
+                                <span class="badge bg-white ms-1 rounded-pill" style="color: #155724; font-size: 0.7rem;">{{ result.matched_count }}</span>
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link px-3 py-2 rounded-pill fw-bold" id="unmatched-tab" data-bs-toggle="tab" data-bs-target="#unmatched" type="button" role="tab" style="background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; font-size: 0.8rem;">
+                                Unmatched
+                                <span class="badge ms-1 rounded-pill" style="background: #fff; color: #856404; font-size: 0.7rem;">{{ result.unmatched_final }}</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Table Content -->
+                <div class="card-body p-4">
+                    <div class="tab-content" id="resultTabsContent">
+                        <!-- Matched Table -->
+                        <div class="tab-pane fade show active" id="matched" role="tabpanel">
+                            <div class="table-container" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0;">
+                                <div class="table-responsive" style="max-height: 85vh; min-height: 750px;">
+                                    <table class="table table-bordered mb-0" id="matchedTable" style="font-size: 0.9rem;">
+                                        <thead class="sticky-top" style="background: #d4edda; backdrop-filter: blur(10px);">
+                                            <tr>
+                                                <th class="fw-bold py-2 px-2 text-center" style="font-size: 0.85rem; color: #155724; border: 1px solid #c3e6cb; white-space: nowrap; width: 60px;">
+                                                    NO
+                                                </th>
+                                                {% if result.matched_data %}
+                                                    {% for key in result.matched_data[0].keys() %}
+                                                    <th class="fw-bold py-2 px-2 text-center" style="font-size: 0.85rem; color: #155724; border: 1px solid #c3e6cb; white-space: nowrap;">
+                                                        {{ key }}
+                                                    </th>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in result.matched_data %}
+                                            <tr class="table-row" data-brand="{{ row.get('Brand', '') }}" data-sales-growth="{{ row.get('Sales Growth', 0) }}" style="transition: all 0.3s ease;">
+                                                <td class="py-2 px-2 text-center" style="font-size: 0.85rem; vertical-align: middle; border: 1px solid #c3e6cb; white-space: nowrap; color: #495057; font-weight: bold;">
+                                                    {{ loop.index }}
+                                                </td>
+                                                {% for key, value in row.items() %}
+                                                <td class="py-2 px-2 text-start" style="font-size: 0.85rem; vertical-align: middle; border: 1px solid #c3e6cb; white-space: nowrap; {% if 'Sales Growth' in key and value %}{% if value|float > 0 %}color: #28a745;{% elif value|float < 0 %}color: #dc3545;{% endif %}{% else %}color: #495057;{% endif %}">
+                                                    {{ value }}
+                                                </td>
+                                                {% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Unmatched Table -->
+                        <div class="tab-pane fade" id="unmatched" role="tabpanel">
+                            <div class="table-container" style="background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #e2e8f0;">
+                                <div class="table-responsive" style="max-height: 85vh; min-height: 750px;">
+                                    <table class="table table-bordered mb-0" id="unmatchedTable" style="font-size: 0.9rem;">
+                                        <thead class="sticky-top" style="background: #fff3cd; backdrop-filter: blur(10px);">
+                                            <tr>
+                                                <th class="fw-bold py-2 px-2 text-center" style="font-size: 0.85rem; color: #856404; border: 1px solid #ffeaa7; white-space: nowrap; width: 60px;">
+                                                    NO
+                                                </th>
+                                                {% if result.unmatched_data %}
+                                                    {% for key in result.unmatched_data[0].keys() %}
+                                                    <th class="fw-bold py-2 px-2 text-center" style="font-size: 0.85rem; color: #856404; border: 1px solid #ffeaa7; white-space: nowrap;">
+                                                        {{ key }}
+                                                    </th>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for row in result.unmatched_data %}
+                                            <tr class="table-row" data-brand="{{ row.get('Brand', '') }}" data-sales-growth="{{ row.get('Sales Growth', 0) }}" style="transition: all 0.3s ease;">
+                                                <td class="py-2 px-2 text-center" style="font-size: 0.85rem; vertical-align: middle; border: 1px solid #ffeaa7; white-space: nowrap; color: #495057; font-weight: bold;">
+                                                    {{ loop.index }}
+                                                </td>
+                                                {% for key, value in row.items() %}
+                                                <td class="py-2 px-2 text-start" style="font-size: 0.85rem; vertical-align: middle; border: 1px solid #ffeaa7; white-space: nowrap; {% if 'Sales Growth' in key and value %}{% if value|float > 0 %}color: #28a745;{% elif value|float < 0 %}color: #dc3545;{% endif %}{% else %}color: #495057;{% endif %}">
+                                                    {{ value }}
+                                                </td>
+                                                {% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function filterTables() {
+    const brandFilter = document.getElementById('brandFilter').value;
+    const salesGrowthFilter = document.getElementById('salesGrowthFilter').value;
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+    ['matchedTable', 'unmatchedTable'].forEach(tableId => {
+        const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+        rows.forEach(row => {
+            let show = true;
+            
+            if (brandFilter && row.dataset.brand !== brandFilter) show = false;
+            
+            if (salesGrowthFilter) {
+                const salesGrowth = parseFloat(row.dataset.salesGrowth) || 0;
+                if (salesGrowthFilter === 'positive' && salesGrowth <= 0) show = false;
+                if (salesGrowthFilter === 'negative' && salesGrowth >= 0) show = false;
+            }
+            
+            if (searchTerm && !row.textContent.toLowerCase().includes(searchTerm)) show = false;
+            
+            row.style.display = show ? '' : 'none';
+        });
+    });
+}
+
+document.getElementById('brandFilter').addEventListener('change', filterTables);
+document.getElementById('salesGrowthFilter').addEventListener('change', filterTables);
+document.getElementById('searchInput').addEventListener('input', filterTables);
+document.getElementById('clearFilters').addEventListener('click', () => {
+    document.getElementById('brandFilter').value = '';
+    document.getElementById('salesGrowthFilter').value = '';
+    document.getElementById('searchInput').value = '';
+    filterTables();
+});
+
+// Update filter counts when switching tabs
+document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+    tab.addEventListener('shown.bs.tab', filterTables);
+    tab.addEventListener('click', function() {
+        // Update tab styling
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.style.background = '#fff';
+            link.style.border = '2px solid #dee2e6';
+            link.classList.add('text-muted');
+            link.classList.remove('text-white');
+        });
+        
+        if (this.id === 'matched-tab') {
+            this.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+            this.style.border = 'none';
+            this.classList.remove('text-muted');
+            this.classList.add('text-white');
+        } else {
+            this.style.background = 'linear-gradient(135deg, #ffc107, #fd7e14)';
+            this.style.border = 'none';
+            this.classList.remove('text-muted');
+            this.classList.add('text-white');
+        }
+    });
+});
+
+// Add modern hover effects
+document.addEventListener('DOMContentLoaded', function() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .table-row:hover {
+            background: linear-gradient(135deg, #f8f9fa, #e3f2fd) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+            border-radius: 8px;
+        }
+        .nav-link:not(.active):hover {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .table-container {
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+{% endblock %}

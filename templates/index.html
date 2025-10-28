@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-8">
+        <!-- Upload Card -->
+        <div class="card border-0 shadow-sm" style="border-radius: 12px; overflow: hidden;">
+            <div class="card-header border-0 text-center" style="background: #f8f9fa; padding: 1.5rem; border-bottom: 1px solid #dee2e6;">
+                <h4 class="mb-1 fw-bold" style="color: #495057;"><i class="fas fa-cloud-upload-alt me-2" style="color: #6c757d;"></i>Tải lên file dữ liệu</h4>
+                <p class="mb-0" style="color: #6c757d; font-size: 0.85rem;">Upload file Excel để bắt đầu phân tích</p>
+            </div>
+            <div class="card-body p-4">
+                <!-- Info Cards -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card border-0 h-100" style="background: #f8f9fa; border-radius: 10px; border: 1px solid #dee2e6;">
+                            <div class="card-body text-center p-2">
+                                <i class="fas fa-file-excel mb-1" style="font-size: 1.2rem; color: #28a745;"></i>
+                                <h6 class="fw-bold mb-0" style="font-size: 0.8rem; color: #495057;">File Excel</h6>
+                                <small style="color: #6c757d; font-size: 0.7rem;">.xlsx, .xls</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 h-100" style="background: #f8f9fa; border-radius: 10px; border: 1px solid #dee2e6;">
+                            <div class="card-body text-center p-2">
+                                <i class="fas fa-columns mb-1" style="font-size: 1.2rem; color: #ffc107;"></i>
+                                <h6 class="fw-bold mb-0" style="font-size: 0.8rem; color: #495057;">Cột bắt buộc</h6>
+                                <small style="color: #6c757d; font-size: 0.7rem;">Product Title</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 h-100" style="background: #f8f9fa; border-radius: 10px; border: 1px solid #dee2e6;">
+                            <div class="card-body text-center p-2">
+                                <i class="fas fa-chart-line mb-1" style="font-size: 1.2rem; color: #007bff;"></i>
+                                <h6 class="fw-bold mb-0" style="font-size: 0.8rem; color: #495057;">Kết quả</h6>
+                                <small style="color: #6c757d; font-size: 0.7rem;">2 sheets Excel</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Form -->
+                <form method="POST" action="/upload" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="file" class="form-label fw-bold text-muted mb-3">
+                            <i class="fas fa-paperclip me-2"></i>Chọn file Excel của bạn:
+                        </label>
+                        <div class="upload-area" style="border: 2px dashed #bbdefb; border-radius: 10px; padding: 1.5rem; text-align: center; background: #f3f8ff; transition: all 0.3s ease;">
+                            <input type="file" class="form-control" id="file" name="file" accept=".xlsx,.xls" required style="border: none; background: transparent; font-size: 0.9rem;">
+                            <div class="mt-2">
+                                <i class="fas fa-upload" style="font-size: 2rem; color: #42a5f5;"></i>
+                                <p class="mt-1 mb-0" style="color: #42a5f5; font-size: 0.8rem;">Kéo thả file vào đây hoặc nhấp để chọn</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn rounded-pill shadow-sm" style="background: #007bff; color: white; border: none; padding: 0.7rem 1.5rem; font-weight: bold; font-size: 0.9rem;">
+                            <i class="fas fa-magic me-2"></i>Bắt đầu phân tích
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Process Steps -->
+        <div class="card border-0 shadow-sm mt-3" style="border-radius: 12px;">
+            <div class="card-header border-0 text-center" style="background: #f8f9fa; border-radius: 12px 12px 0 0; padding: 1rem; border-bottom: 1px solid #dee2e6;">
+                <h5 class="mb-0 fw-bold" style="color: #495057;"><i class="fas fa-cogs me-2" style="color: #6c757d;"></i>Quy trình xử lý tự động</h5>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="step-icon mb-2" style="width: 40px; height: 40px; background: #e8f5e8; border: 2px solid #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                                <span class="fw-bold" style="font-size: 1rem; color: #28a745;">1</span>
+                            </div>
+                            <h6 class="fw-bold mb-1" style="font-size: 0.8rem; color: #495057;">Đọc Checklist</h6>
+                            <small style="color: #6c757d; font-size: 0.7rem;">Từ Google Sheets</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="step-icon mb-2" style="width: 40px; height: 40px; background: #e3f2fd; border: 2px solid #007bff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                                <span class="fw-bold" style="font-size: 1rem; color: #007bff;">2</span>
+                            </div>
+                            <h6 class="fw-bold mb-1" style="font-size: 0.8rem; color: #495057;">So khớp Product ID</h6>
+                            <small style="color: #6c757d; font-size: 0.7rem;">Trong Product Title</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="step-icon mb-2" style="width: 40px; height: 40px; background: #fff3cd; border: 2px solid #ffc107; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                                <span class="fw-bold" style="font-size: 1rem; color: #ffc107;">3</span>
+                            </div>
+                            <h6 class="fw-bold mb-1" style="font-size: 0.8rem; color: #495057;">Trích xuất Product Number</h6>
+                            <small style="color: #6c757d; font-size: 0.7rem;">Từ unmatched records</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="step-icon mb-2" style="width: 40px; height: 40px; background: #f8d7da; border: 2px solid #dc3545; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 1px 4px rgba(0,0,0,0.1);">
+                                <span class="fw-bold" style="font-size: 1rem; color: #dc3545;">4</span>
+                            </div>
+                            <h6 class="fw-bold mb-1" style="font-size: 0.8rem; color: #495057;">Xuất Excel</h6>
+                            <small style="color: #6c757d; font-size: 0.7rem;">2 sheets: Matched & Unmatched</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
